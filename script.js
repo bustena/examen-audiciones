@@ -36,29 +36,30 @@ function iniciarSesion() {
   document.getElementById('cargando-audios').classList.remove('hidden');
   document.getElementById('lista-audiciones').classList.add('hidden');
 
-  fetch(url)
-    .then(res => res.text())
-    .then(texto => {
-      const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
-      console.log("Cabeceras:", resultado.meta.fields);
-      console.log("Primera fila:", resultado.data[0]);
-      datos = resultado.data
-        .filter(obj =>
-          typeof obj.Autor === 'string' &&
-          typeof obj.Obra === 'string' &&
-          typeof obj.URL_audio === 'string' &&
-          obj.Autor.trim() &&
-          obj.Obra.trim() &&
-          obj.URL_audio.trim()
-        )
-        .map(obj => ({
-          autor: obj.Autor.trim(),
-          obra: obj.Obra.trim(),
-          url_audio: obj.URL_audio.trim()
-        }))
-        .slice(0, 15); // ← ahora sí, corta después de filtrar
-      prepararAudiciones(n);
-    });
+fetch(url)
+  .then(res => res.text())
+  .then(texto => {
+    console.log('Contenido recibido:\n', texto.slice(0, 500));
+    const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+    console.log("Cabeceras:", resultado.meta.fields);
+    console.log("Primera fila:", resultado.data[0]);
+    datos = resultado.data
+      .filter(obj =>
+        typeof obj.Autor === 'string' &&
+        typeof obj.Obra === 'string' &&
+        typeof obj.URL_audio === 'string' &&
+        obj.Autor.trim() &&
+        obj.Obra.trim() &&
+        obj.URL_audio.trim()
+      )
+      .map(obj => ({
+        autor: obj.Autor.trim(),
+        obra: obj.Obra.trim(),
+        url_audio: obj.URL_audio.trim()
+      }))
+      .slice(0, 15);
+    prepararAudiciones(n);
+  });
 }
 
 function prepararAudiciones(n) {
