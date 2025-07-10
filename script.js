@@ -65,11 +65,22 @@ function prepararAudiciones(n) {
 function generarBotones() {
   const contenedor = document.getElementById('lista-audiciones');
   contenedor.innerHTML = '';
+  audios = [];
+
+  let pendientes = seleccionadas.length;
 
   seleccionadas.forEach((entrada, i) => {
-    const audio = new Audio(entrada.url_audio);
-    audio.dataset.index = i;
+    const audio = new Audio();
+    audio.src = entrada.url_audio;
     audio.preload = 'metadata';
+    audio.dataset.index = i;
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-audio';
+    btn.textContent = `${i + 1}`;
+    btn.disabled = true; // deshabilitado hasta que esté listo
+    contenedor.appendChild(btn);
+
     audio.addEventListener('loadedmetadata', () => {
       const duracion = audio.duration;
       let inicio = 0;
@@ -77,16 +88,19 @@ function generarBotones() {
         inicio = Math.random() * (duracion - duracionSegundos);
       }
       audio.dataset.start = inicio;
+
+      btn.disabled = false; // habilitar botón cuando esté listo
+      btn.onclick = () => reproducirAudio(i, btn);
+
+      pendientes--;
+      if (pendientes === 0) {
+        console.log('Todos los audios preparados');
+      }
     });
+
     audio.addEventListener('ended', () => detenerTodos());
 
     audios.push(audio);
-
-    const btn = document.createElement('button');
-    btn.className = 'btn-audio';
-    btn.textContent = `${i + 1}`;
-    btn.onclick = () => reproducirAudio(i, btn);
-    contenedor.appendChild(btn);
   });
 }
 
