@@ -35,11 +35,13 @@ function iniciarSesion() {
     .then(res => res.text())
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
-      datos = resultado.data.map(obj => ({
-        autor: obj.Autor,
-        obra: obj.Obra,
-        url_audio: obj.URL_audio
-      }));
+      datos = resultado.data
+        .filter(obj => obj.Autor && obj.Obra && obj.URL_audio)
+        .map(obj => ({
+          autor: obj.Autor.trim(),
+          obra: obj.Obra.trim(),
+          url_audio: obj.URL_audio.trim()
+        }));
       prepararAudiciones(nAudiciones);
     });
 }
