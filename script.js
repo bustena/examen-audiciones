@@ -41,13 +41,20 @@ function iniciarSesion() {
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
       datos = resultado.data
-        .slice(0, 15)
-        .filter(obj => obj.Autor && obj.Obra && obj.URL_audio)
+        .filter(obj =>
+          typeof obj.Autor === 'string' &&
+          typeof obj.Obra === 'string' &&
+          typeof obj.URL_audio === 'string' &&
+          obj.Autor.trim() &&
+          obj.Obra.trim() &&
+          obj.URL_audio.trim()
+        )
         .map(obj => ({
           autor: obj.Autor.trim(),
           obra: obj.Obra.trim(),
           url_audio: obj.URL_audio.trim()
-        }));
+        }))
+        .slice(0, 15); // ← ahora sí, corta después de filtrar
       prepararAudiciones(n);
     });
 }
