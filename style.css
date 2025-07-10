@@ -68,6 +68,15 @@ button:disabled {
   cursor: not-allowed;
 }
 
+#cargando-audios {
+  font-style: italic;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+
 /* Botones de audio */
 #lista-audiciones {
   display: flex;
