@@ -71,16 +71,21 @@ function prepararAudiciones(n) {
   seleccionadas = [];
   audios = [];
 
-  const copia = [...datos];
+  const copia = [...datos].filter(e => e.url_audio && e.url_audio.trim()); // ← ya filtrado
+
   while (seleccionadas.length < n && copia.length > 0) {
     const idx = Math.floor(Math.random() * copia.length);
     const entrada = copia.splice(idx, 1)[0];
-    if (entrada && entrada.url_audio) {
+    if (entrada) {
       seleccionadas.push(entrada);
     }
   }
 
-  generarBotones();
+  if (seleccionadas.length < n) {
+    alert(`Solo se han podido seleccionar ${seleccionadas.length} audiciones válidas.`);
+  }
+
+  generarBotones(); // ← fuera del while, dentro de la función
 }
 
 function generarBotones() {
