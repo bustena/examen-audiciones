@@ -24,36 +24,31 @@ function parseDuracion(texto) {
 function iniciarSesion() {
   const curso = document.getElementById('select-curso').value;
   const trimestre = document.getElementById('select-trimestre').value;
-  const nAudiciones = parseInt(document.getElementById('num-audiciones').value);
+  const n = parseInt(document.getElementById('num-audiciones').value);
   const duracionTexto = document.getElementById('duracion').value;
   duracionSegundos = parseDuracion(duracionTexto);
 
   const clave = `H${curso}tr${trimestre}`;
   const url = hojaURLs[clave];
 
+  document.getElementById('pantalla-inicial').classList.add('hidden');
+  document.getElementById('pantalla-audicion').classList.remove('hidden');
+  document.getElementById('cargando-audios').classList.remove('hidden');
+  document.getElementById('lista-audiciones').classList.add('hidden');
+
   fetch(url)
     .then(res => res.text())
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
-      console.log('Datos brutos cargados:', resultado.data);
-
       datos = resultado.data
         .slice(0, 15)
-        .filter(obj =>
-          typeof obj.Autor === 'string' &&
-          typeof obj.Obra === 'string' &&
-          typeof obj.URL_audio === 'string' &&
-          obj.Autor.trim() &&
-          obj.Obra.trim() &&
-          obj.URL_audio.trim()
-        )
+        .filter(obj => obj.Autor && obj.Obra && obj.URL_audio)
         .map(obj => ({
           autor: obj.Autor.trim(),
           obra: obj.Obra.trim(),
           url_audio: obj.URL_audio.trim()
         }));
-
-      prepararAudiciones(nAudiciones);
+      prepararAudiciones(n);
     });
 }
 
@@ -64,23 +59,17 @@ function prepararAudiciones(n) {
   const copia = [...datos];
   for (let i = 0; i < n; i++) {
     const idx = Math.floor(Math.random() * copia.length);
-    const entrada = copia.splice(idx, 1)[0];
-    seleccionadas.push(entrada);
+    seleccionadas.push(copia.splice(idx, 1)[0]);
   }
 
   generarBotones();
-  document.getElementById('pantalla-inicial').classList.add('hidden');
-  document.getElementById('pantalla-audicion').classList.remove('hidden');
 }
 
 function generarBotones() {
   const contenedor = document.getElementById('lista-audiciones');
   contenedor.innerHTML = '';
   audios = [];
-
   let pendientes = seleccionadas.length;
-  document.getElementById('cargando-audios').classList.remove('hidden');
-  contenedor.classList.add('hidden');
 
   seleccionadas.forEach((entrada, i) => {
     const audio = new Audio();
@@ -101,10 +90,8 @@ function generarBotones() {
         inicio = Math.random() * (duracion - duracionSegundos);
       }
       audio.dataset.start = inicio;
-
       btn.disabled = false;
       btn.onclick = () => reproducirAudio(i, btn);
-
       pendientes--;
       if (pendientes === 0) {
         document.getElementById('cargando-audios').classList.add('hidden');
@@ -122,14 +109,12 @@ function generarBotones() {
     });
 
     audio.addEventListener('ended', () => detenerTodos());
-
     audios.push(audio);
   });
 }
 
 function reproducirAudio(i, boton) {
   const audio = audios[i];
-
   if (!audio.paused) {
     audio.pause();
     audio.currentTime = parseFloat(audio.dataset.start);
@@ -145,7 +130,7 @@ function reproducirAudio(i, boton) {
 }
 
 function detenerTodos() {
-  audios.forEach((a) => {
+  audios.forEach(a => {
     if (!a.paused) a.pause();
   });
   activarTodos(true);
