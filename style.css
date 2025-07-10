@@ -1,0 +1,102 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Contenedores principales */
+.pantalla {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.hidden {
+  display: none;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Formularios */
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+input, select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 200px;
+  margin-top: 0.25rem;
+}
+
+/* Botón principal */
+button {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #115293;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Botones de audio */
+#lista-audiciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-audio {
+  background-color: #e0e0e0;
+  color: #000;
+  min-width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.btn-audio:hover:not(:disabled) {
+  background-color: #c0c0c0;
+}
+
+/* Botones de control */
+button.control {
+  margin: 1rem 0.5rem;
+  background-color: #388e3c;
+}
+
+button.control:hover {
+  background-color: #2e7d32;
+}
