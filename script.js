@@ -53,13 +53,21 @@ function iniciarSesion() {
 }
 
 function prepararAudiciones(n) {
+  if (n > datos.length) {
+    alert(`Solo hay ${datos.length} audiciones disponibles.`);
+    return;
+  }
+
   seleccionadas = [];
   audios = [];
 
   const copia = [...datos];
-  for (let i = 0; i < n; i++) {
+  while (seleccionadas.length < n && copia.length > 0) {
     const idx = Math.floor(Math.random() * copia.length);
-    seleccionadas.push(copia.splice(idx, 1)[0]);
+    const entrada = copia.splice(idx, 1)[0];
+    if (entrada && entrada.url_audio) {
+      seleccionadas.push(entrada);
+    }
   }
 
   generarBotones();
