@@ -29,7 +29,7 @@ function iniciarSesion() {
   duracionSegundos = parseDuracion(duracionTexto);
 
   const clave = `H${curso}tr${trimestre}`;
-  const url = 'https://corsproxy.io/?' + encodeURIComponent(hojaURLs[clave]);
+  const url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(hojaURLs[clave]);
 
   document.getElementById('pantalla-inicial').classList.add('hidden');
   document.getElementById('pantalla-audicion').classList.remove('hidden');
