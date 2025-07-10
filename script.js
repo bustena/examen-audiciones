@@ -14,10 +14,10 @@ let duracionSegundos = 30;
 
 function parseDuracion(texto) {
   if (texto.includes(':')) {
-    const [min, seg] = texto.split(':').map(x => parseInt(x));
+    const [min, seg] = texto.split(':').map(x => parseInt(x, 10));
     return min * 60 + (isNaN(seg) ? 0 : seg);
   } else {
-    return parseInt(texto) * 60;
+    return parseInt(texto, 10) * 60;
   }
 }
 
@@ -27,55 +27,49 @@ function iniciarSesion() {
   const n = parseInt(document.getElementById('num-audiciones').value);
   const duracionTexto = document.getElementById('duracion').value;
   duracionSegundos = parseDuracion(duracionTexto);
+
   const clave = `H${curso}tr${trimestre}`;
-  fetch('https://corsproxy.io/?' + encodeURIComponent(hojaURLs[clave]))
-  .then(res => res.text())
-  .then(texto => {
-    if (texto.startsWith('<!DOCTYPE html')) {
-      alert('Error: HTML recibido, no CSV.');
-      reiniciar();
-      return;
-    }
-    // resto igual...
-  });
+  const url = 'https://corsproxy.io/?' + encodeURIComponent(hojaURLs[clave]);
+
   document.getElementById('pantalla-inicial').classList.add('hidden');
   document.getElementById('pantalla-audicion').classList.remove('hidden');
   document.getElementById('cargando-audios').classList.remove('hidden');
   document.getElementById('lista-audiciones').classList.add('hidden');
 
-fetch(url)
-  .then(res => res.text())
-  .then(texto => {
-    if (texto.startsWith('<!DOCTYPE html')) {
-      alert('Error: se ha recibido una página HTML en lugar del CSV. Verifica permisos o CORS.');
-      reiniciar();
-      return;
-    }
+  fetch(url)
+    .then(res => res.text())
+    .then(texto => {
+      if (texto.startsWith('<!DOCTYPE html')) {
+        alert('Error: se ha recibido una página HTML en lugar del CSV.');
+        reiniciar();
+        return;
+      }
 
-    console.log('Contenido recibido:\n', texto.slice(0, 500));
+      console.log('Contenido recibido:\n', texto.slice(0, 500));
 
-    const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
-    console.log("Cabeceras:", resultado.meta.fields);
-    console.log("Primera fila:", resultado.data[0]);
+      const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+      console.log("Cabeceras:", resultado.meta.fields);
+      console.log("Primera fila:", resultado.data[0]);
 
-    datos = resultado.data
-      .filter(obj =>
-        typeof obj.Autor === 'string' &&
-        typeof obj.Obra === 'string' &&
-        typeof obj.URL_audio === 'string' &&
-        obj.Autor.trim() &&
-        obj.Obra.trim() &&
-        obj.URL_audio.trim()
-      )
-      .map(obj => ({
-        autor: obj.Autor.trim(),
-        obra: obj.Obra.trim(),
-        url_audio: obj.URL_audio.trim()
-      }))
-      .slice(0, 15);
+      datos = resultado.data
+        .filter(obj =>
+          typeof obj.Autor === 'string' &&
+          typeof obj.Obra === 'string' &&
+          typeof obj.URL_audio === 'string' &&
+          obj.Autor.trim() &&
+          obj.Obra.trim() &&
+          obj.URL_audio.trim()
+        )
+        .map(obj => ({
+          autor: obj.Autor.trim(),
+          obra: obj.Obra.trim(),
+          url_audio: obj.URL_audio.trim()
+        }))
+        .slice(0, 15);
 
-    prepararAudiciones(n);
-  });
+      prepararAudiciones(n);
+    });
+}
 
 function prepararAudiciones(n) {
   if (n > datos.length) {
@@ -86,7 +80,7 @@ function prepararAudiciones(n) {
   seleccionadas = [];
   audios = [];
 
-  const copia = [...datos].filter(e => e.url_audio && e.url_audio.trim()); // ← ya filtrado
+  const copia = [...datos].filter(e => e.url_audio && e.url_audio.trim());
 
   while (seleccionadas.length < n && copia.length > 0) {
     const idx = Math.floor(Math.random() * copia.length);
@@ -100,7 +94,7 @@ function prepararAudiciones(n) {
     alert(`Solo se han podido seleccionar ${seleccionadas.length} audiciones válidas.`);
   }
 
-  generarBotones(); // ← fuera del while, dentro de la función
+  generarBotones();
 }
 
 function generarBotones() {
