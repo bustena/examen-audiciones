@@ -37,7 +37,15 @@ function iniciarSesion() {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
       console.log('Datos brutos cargados:', resultado.data);
       datos = resultado.data
-        .filter(obj => obj.Autor && obj.Obra && obj.URL_audio)
+        .slice(0, 15) // solo las primeras 15 filas reales
+        .filter(obj =>
+          typeof obj.Autor === 'string' &&
+          typeof obj.Obra === 'string' &&
+          typeof obj.URL_audio === 'string' &&
+          obj.Autor.trim() &&
+          obj.Obra.trim() &&
+          obj.URL_audio.trim()
+        )
         .map(obj => ({
           autor: obj.Autor.trim(),
           obra: obj.Obra.trim(),
