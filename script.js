@@ -35,6 +35,7 @@ function iniciarSesion() {
     .then(res => res.text())
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+      console.log('Datos brutos cargados:', resultado.data);
       datos = resultado.data
         .filter(obj => obj.Autor && obj.Obra && obj.URL_audio)
         .map(obj => ({
