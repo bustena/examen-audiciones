@@ -68,6 +68,8 @@ function generarBotones() {
   audios = [];
 
   let pendientes = seleccionadas.length;
+  document.getElementById('cargando-audios').classList.remove('hidden');
+  contenedor.classList.add('hidden');
 
   seleccionadas.forEach((entrada, i) => {
     const audio = new Audio();
@@ -78,7 +80,7 @@ function generarBotones() {
     const btn = document.createElement('button');
     btn.className = 'btn-audio';
     btn.textContent = `${i + 1}`;
-    btn.disabled = true; // deshabilitado hasta que esté listo
+    btn.disabled = true;
     contenedor.appendChild(btn);
 
     audio.addEventListener('loadedmetadata', () => {
@@ -89,12 +91,24 @@ function generarBotones() {
       }
       audio.dataset.start = inicio;
 
-      btn.disabled = false; // habilitar botón cuando esté listo
+      btn.disabled = false;
       btn.onclick = () => reproducirAudio(i, btn);
 
       pendientes--;
       if (pendientes === 0) {
-        console.log('Todos los audios preparados');
+        // Todos cargados
+        document.getElementById('cargando-audios').classList.add('hidden');
+        contenedor.classList.remove('hidden');
+        console.log('Todos los audios listos');
+      }
+    });
+
+    audio.addEventListener('error', () => {
+      console.warn(`Error al cargar audio: ${entrada.url_audio}`);
+      pendientes--;
+      if (pendientes === 0) {
+        document.getElementById('cargando-audios').classList.add('hidden');
+        contenedor.classList.remove('hidden');
       }
     });
 
