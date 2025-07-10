@@ -36,8 +36,9 @@ function iniciarSesion() {
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
       console.log('Datos brutos cargados:', resultado.data);
+
       datos = resultado.data
-        .slice(0, 15) // solo las primeras 15 filas reales
+        .slice(0, 15)
         .filter(obj =>
           typeof obj.Autor === 'string' &&
           typeof obj.Obra === 'string' &&
@@ -51,6 +52,7 @@ function iniciarSesion() {
           obra: obj.Obra.trim(),
           url_audio: obj.URL_audio.trim()
         }));
+
       prepararAudiciones(nAudiciones);
     });
 }
@@ -105,10 +107,8 @@ function generarBotones() {
 
       pendientes--;
       if (pendientes === 0) {
-        // Todos cargados
         document.getElementById('cargando-audios').classList.add('hidden');
         contenedor.classList.remove('hidden');
-        console.log('Todos los audios listos');
       }
     });
 
@@ -145,7 +145,7 @@ function reproducirAudio(i, boton) {
 }
 
 function detenerTodos() {
-  audios.forEach((a, i) => {
+  audios.forEach((a) => {
     if (!a.paused) a.pause();
   });
   activarTodos(true);
