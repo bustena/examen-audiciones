@@ -27,10 +27,17 @@ function iniciarSesion() {
   const n = parseInt(document.getElementById('num-audiciones').value);
   const duracionTexto = document.getElementById('duracion').value;
   duracionSegundos = parseDuracion(duracionTexto);
-
   const clave = `H${curso}tr${trimestre}`;
-  const url = hojaURLs[clave];
-
+  fetch('https://corsproxy.io/?' + encodeURIComponent(hojaURLs[clave]))
+  .then(res => res.text())
+  .then(texto => {
+    if (texto.startsWith('<!DOCTYPE html')) {
+      alert('Error: HTML recibido, no CSV.');
+      reiniciar();
+      return;
+    }
+    // resto igual...
+  });
   document.getElementById('pantalla-inicial').classList.add('hidden');
   document.getElementById('pantalla-audicion').classList.remove('hidden');
   document.getElementById('cargando-audios').classList.remove('hidden');
