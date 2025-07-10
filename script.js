@@ -40,6 +40,8 @@ function iniciarSesion() {
     .then(res => res.text())
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+      console.log("Cabeceras:", resultado.meta.fields);
+      console.log("Primera fila:", resultado.data[0]);
       datos = resultado.data
         .filter(obj =>
           typeof obj.Autor === 'string' &&
