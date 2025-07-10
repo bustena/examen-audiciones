@@ -39,10 +39,18 @@ function iniciarSesion() {
 fetch(url)
   .then(res => res.text())
   .then(texto => {
+    if (texto.startsWith('<!DOCTYPE html')) {
+      alert('Error: se ha recibido una página HTML en lugar del CSV. Verifica permisos o CORS.');
+      reiniciar();
+      return;
+    }
+
     console.log('Contenido recibido:\n', texto.slice(0, 500));
+
     const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
     console.log("Cabeceras:", resultado.meta.fields);
     console.log("Primera fila:", resultado.data[0]);
+
     datos = resultado.data
       .filter(obj =>
         typeof obj.Autor === 'string' &&
@@ -58,9 +66,9 @@ fetch(url)
         url_audio: obj.URL_audio.trim()
       }))
       .slice(0, 15);
+
     prepararAudiciones(n);
   });
-}
 
 function prepararAudiciones(n) {
   if (n > datos.length) {
