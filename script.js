@@ -1,0 +1,133 @@
+const hojaURLs = {
+  H1tr1: 'https://.../output=csv',
+  H1tr2: 'https://.../output=csv',
+  H1tr3: 'https://.../output=csv',
+  H2tr1: 'https://.../output=csv',
+  H2tr2: 'https://.../output=csv',
+  H2tr3: 'https://.../output=csv'
+};
+
+let datos = [];
+let seleccionadas = [];
+let audios = [];
+let duracionSegundos = 30;
+
+function parseDuracion(texto) {
+  if (texto.includes(':')) {
+    const [min, seg] = texto.split(':').map(x => parseInt(x));
+    return min * 60 + (isNaN(seg) ? 0 : seg);
+  } else {
+    return parseInt(texto) * 60;
+  }
+}
+
+function iniciarSesion() {
+  const curso = document.getElementById('select-curso').value;
+  const trimestre = document.getElementById('select-trimestre').value;
+  const nAudiciones = parseInt(document.getElementById('num-audiciones').value);
+  const duracionTexto = document.getElementById('duracion').value;
+  duracionSegundos = parseDuracion(duracionTexto);
+
+  const clave = `H${curso}tr${trimestre}`;
+  const url = hojaURLs[clave];
+
+  fetch(url)
+    .then(res => res.text())
+    .then(texto => {
+      const resultado = Papa.parse(texto, { header: true, skipEmptyLines: true });
+      datos = resultado.data.map(obj => ({
+        autor: obj.Autor,
+        obra: obj.Obra,
+        url_audio: obj.URL_audio
+      }));
+      prepararAudiciones(nAudiciones);
+    });
+}
+
+function prepararAudiciones(n) {
+  seleccionadas = [];
+  audios = [];
+
+  const copia = [...datos];
+  for (let i = 0; i < n; i++) {
+    const idx = Math.floor(Math.random() * copia.length);
+    const entrada = copia.splice(idx, 1)[0];
+    seleccionadas.push(entrada);
+  }
+
+  generarBotones();
+  document.getElementById('pantalla-inicial').classList.add('hidden');
+  document.getElementById('pantalla-audicion').classList.remove('hidden');
+}
+
+function generarBotones() {
+  const contenedor = document.getElementById('lista-audiciones');
+  contenedor.innerHTML = '';
+
+  seleccionadas.forEach((entrada, i) => {
+    const audio = new Audio(entrada.url_audio);
+    audio.dataset.index = i;
+    audio.preload = 'metadata';
+    audio.addEventListener('loadedmetadata', () => {
+      const duracion = audio.duration;
+      let inicio = 0;
+      if (duracion > duracionSegundos) {
+        inicio = Math.random() * (duracion - duracionSegundos);
+      }
+      audio.dataset.start = inicio;
+    });
+    audio.addEventListener('ended', () => detenerTodos());
+
+    audios.push(audio);
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-audio';
+    btn.textContent = `${i + 1}`;
+    btn.onclick = () => reproducirAudio(i, btn);
+    contenedor.appendChild(btn);
+  });
+}
+
+function reproducirAudio(i, boton) {
+  const audio = audios[i];
+
+  if (!audio.paused) {
+    audio.pause();
+    audio.currentTime = parseFloat(audio.dataset.start);
+    activarTodos(true);
+    return;
+  }
+
+  detenerTodos();
+  audio.currentTime = parseFloat(audio.dataset.start);
+  audio.play();
+  activarTodos(false);
+  boton.disabled = false;
+}
+
+function detenerTodos() {
+  audios.forEach((a, i) => {
+    if (!a.paused) a.pause();
+  });
+  activarTodos(true);
+}
+
+function activarTodos(activo) {
+  document.querySelectorAll('.btn-audio').forEach(btn => {
+    btn.disabled = !activo;
+  });
+}
+
+function mostrarSolucion() {
+  const botones = document.querySelectorAll('.btn-audio');
+  botones.forEach((btn, i) => {
+    const entrada = seleccionadas[i];
+    btn.textContent = `${i + 1}. ${entrada.autor}: ${entrada.obra}`;
+  });
+}
+
+function reiniciar() {
+  detenerTodos();
+  document.getElementById('pantalla-audicion').classList.add('hidden');
+  document.getElementById('pantalla-inicial').classList.remove('hidden');
+}
