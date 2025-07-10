@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Entrenamiento auditivo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: #f0f0f0;
+    }
+    .hidden {
+      display: none;
+    }
+    .pantalla {
+      margin-bottom: 2rem;
+    }
+    .btn-audio {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #ddd;
+      cursor: pointer;
+    }
+    .btn-audio:disabled {
+      background-color: #bbb;
+      cursor: not-allowed;
+    }
+    button.control {
+      margin: 1rem 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla inicial -->
+  <div id="pantalla-inicial" class="pantalla">
+    <h2>Configuración</h2>
+    <label>Curso:
+      <select id="select-curso">
+        <option value="1">H1</option>
+        <option value="2">H2</option>
+      </select>
+    </label><br><br>
+
+    <label>Trimestre:
+      <select id="select-trimestre">
+        <option value="tr1">1º</option>
+        <option value="tr2">2º</option>
+        <option value="tr3">3º</option>
+      </select>
+    </label><br><br>
+
+    <label>N.º de audiciones (máx 6):
+      <input type="number" id="num-audiciones" min="1" max="6" value="3"/>
+    </label><br><br>
+
+    <label>Duración (ej: 1:30 o 2):
+      <input type="text" id="duracion" value="0:40"/>
+    </label><br><br>
+
+    <button onclick="iniciarSesion()">Empezar</button>
+  </div>
+
+  <!-- Pantalla de audiciones -->
+  <div id="pantalla-audicion" class="pantalla hidden">
+    <h2>Selecciona y escucha</h2>
+    <div id="lista-audiciones"></div>
+    <br>
+    <button class="control" onclick="mostrarSolucion()">Solución</button>
+    <button class="control" onclick="reiniciar()">Reiniciar</button>
+  </div>
+
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <!-- Tu script -->
+  <script src="script.js"></script>
+</body>
+</html>
