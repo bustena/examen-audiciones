@@ -126,8 +126,7 @@ h1, h2 {
 
 /* Zona de solución oculta hasta activación */
 .zona-solucion {
-  display: flex;               /* ya no está oculta */
-  margin-top: 1rem;
+  display: flex;
   width: calc(100% - 3rem);
   margin: 0 1.5rem;
   background-color: #f5eee6;
@@ -140,7 +139,7 @@ h1, h2 {
   align-items: center;
   justify-content: center;
   transition: opacity 0.5s ease;
-  /*opacity: 0; /* solución inicialmente invisible */
+  min-height: 2.2rem;  /* Esta línea es la clave */
 }
 
 /* Botón general de soluciones */
