@@ -16,6 +16,7 @@ let fragmentos = [];
 let estados = [];
 let audio = new Audio();
 let actual = -1;
+let finTimeout = null;
 
 function loadCSV(clave) {
   document.getElementById('cargando').style.display = 'block';
@@ -88,6 +89,11 @@ function iniciarAudiciones() {
 }
 
 function reproducir(i, url, btn) {
+  if (finTimeout) {
+    clearTimeout(finTimeout);
+    finTimeout = null;
+  }
+
   if (actual === i) {
     if (!audio.paused) {
       audio.pause();
@@ -121,9 +127,21 @@ function reproducir(i, url, btn) {
     estados[i] = 'play';
     btn.classList.add('activo');
     actual = i;
+
+    // Detener tras DURACION segundos
+    finTimeout = setTimeout(() => {
+      audio.pause();
+      btn.classList.remove('activo', 'pausado');
+      estados[i] = 'stop';
+      actual = -1;
+    }, DURACION * 1000);
   });
 
   audio.addEventListener('ended', () => {
+    if (finTimeout) {
+      clearTimeout(finTimeout);
+      finTimeout = null;
+    }
     btn.classList.remove('activo', 'pausado');
     estados[i] = 'stop';
     actual = -1;
