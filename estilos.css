@@ -122,9 +122,16 @@ h1, h2 {
   color: white;
 }
 
+.boton-audicion.activo:hover {
+  background-color: #00aa55;
+}
+
+.boton-audicion.pausado:hover {
+  background-color: #ccaa33;
+}
+
 .boton-audicion.activo:hover,
 .boton-audicion.pausado:hover {
-  background-color: inherit;
   transform: none;
   box-shadow: none;
 }
