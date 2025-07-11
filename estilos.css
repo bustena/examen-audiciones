@@ -105,6 +105,19 @@ h1, h2 {
   font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.boton-solucion {
+  margin-top: 0.6rem;
+  background: #aaa;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
   transition: background 0.2s ease;
 }
 
