@@ -83,6 +83,12 @@ function iniciarAudiciones() {
     });
     btnSol.disabled = true;
   };
+  
+  // Estilo para evitar solapamientos
+  btnSol.style.marginTop = '3rem';
+  btnSol.style.marginBottom = '2rem';
+  btnSol.style.display = 'block';
+  
   audiciones.appendChild(btnSol);
 
   document.getElementById('cargando').style.display = 'none';
