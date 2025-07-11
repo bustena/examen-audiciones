@@ -127,7 +127,6 @@ h1, h2 {
 /* Zona de solución oculta hasta activación */
 .zona-solucion {
   display: flex;               /* ya no está oculta */
-  width: 100%;
   margin-top: 1rem;
   width: calc(100% - 3rem);
   margin: 0 1.5rem;
