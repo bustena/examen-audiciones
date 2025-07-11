@@ -81,11 +81,11 @@ h1, h2 {
   background-color: #e8ddd3;
   border-radius: 10px;
   padding: 1.5rem 1rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* ← sombra más visible */
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 80px; /* o ajusta más si es necesario */
+  min-height: 80px;
 }
 
 /* Botón de audición */
