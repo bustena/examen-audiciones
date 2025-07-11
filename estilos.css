@@ -98,6 +98,16 @@ h1, h2 {
   text-align: left;
 }
 
+.boton-audicion.activo {
+  background-color: #00aa55;
+  color: white;
+}
+
+.boton-audicion.pausado {
+  background-color: #ccaa33;
+  color: white;
+}
+
 /* Pie de página */
 .footer {
   position: fixed;
