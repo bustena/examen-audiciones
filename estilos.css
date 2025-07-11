@@ -95,6 +95,34 @@ h1, h2 {
   justify-content: center;
 }
 
+#mostrar-soluciones {
+  background-color: #765348;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin: 2rem auto 0;
+  display: block;
+}
+
+#mostrar-soluciones:hover:enabled {
+  background-color: #5c3e36;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+#mostrar-soluciones:disabled {
+  background-color: #aaa;
+  cursor: default;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Pie de página */
 .footer {
   position: fixed;
