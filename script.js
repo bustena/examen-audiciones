@@ -82,26 +82,6 @@ function iniciarAudiciones() {
   });
 
   audiciones.appendChild(grid);
-
-  const btnSol = document.createElement('button');
-  btnSol.id = 'mostrar-soluciones';
-  btnSol.textContent = 'Mostrar soluciones';
-  btnSol.onclick = () => {
-    document.querySelectorAll('.zona-solucion').forEach((zona, i) => {
-      const idx = seleccion[i];
-      zona.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
-      zona.style.fontWeight = 'bold';
-    });
-    btnSol.disabled = true;
-  };
-  
-  // Estilo para evitar solapamientos
-  btnSol.style.marginTop = '3rem';
-  btnSol.style.marginBottom = '2rem';
-  btnSol.style.display = 'block';
-  
-  audiciones.appendChild(btnSol);
-
   document.getElementById('cargando').style.display = 'none';
 }
 
