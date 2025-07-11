@@ -1,119 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulador de examen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="estilossheet">
   <link rel="icon" href="https://bustena.wordpress.com/wp-content/uploads/2023/02/cropped-icon-piano.png" type="image/png">
-  <style>
-    body {
-      font-family: 'Lato', sans-serif;
-      background: #f5eee6;
-      padding: 2rem;
-      margin-bottom: 4rem; /* espacio para la banda inferior */
-      color: #5c3e36;
-    }
-
-    h1 {
-      text-align: center;
-      font-weight: 300;
-      font-size: 1.8rem;
-      color: #5c3e36;
-      margin-bottom: 2rem;
-    }
-
-    .botonera {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .botonera button {
-      background: #eee;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 0.8rem 1.2rem;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: 180px;
-    }
-
-    .botonera button:hover {
-      background: #d4e4ff;
-      border-color: #88aaff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transform: translateY(-2px);
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #222;
-      color: white;
-      text-align: center;
-      padding: 0.7rem 1rem;
-      font-size: 1rem;
-      z-index: 100;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-    }
-
-    .footer a {
-      color: white;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .footer-icon {
-      height: 24px;
-      width: 24px;
-    }
-
-    .footer-title {
-      font-weight: bold;
-      font-size: 1.1rem;
-      font-family: 'Lato', sans-serif;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listado de audiciones</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <h1>Simulador de examen</h1>
+  <h1>Audiciones de la asignatura</h1>
+    <h2>Historia de la Música 1</h2>
+    <div class="botonera">
+      <button onclick="loadCSV('H1tr1')">1er trimestre</button>
+      <button onclick="loadCSV('H1tr2')">2º trimestre</button>
+      <button onclick="loadCSV('H1tr3')">3er trimestre</button>
+    </div>
+    
+    <h2>Historia de la Música 2</h2>
+    <div class="botonera">
+      <button onclick="loadCSV('H2tr1')">1er trimestre</button>
+      <button onclick="loadCSV('H2tr2')">2º trimestre</button>
+      <button onclick="loadCSV('H2tr3')">3er trimestre</button>
+    </div>
+  <div id="cargando" style="text-align:center; margin: 1rem; display:none;">Cargando...</div>
+  <div id="audiciones" class="audiciones"></div>
 
-  <div class="botonera">
-    <button onclick="iniciarSesion('H1tr1')">Historia 1 (1er trimestre)</button>
-    <button onclick="iniciarSesion('H1tr2')">Historia 1 (2º trimestre)</button>
-    <button onclick="iniciarSesion('H1tr3')">Historia 1 (3er trimestre)</button>
-  </div>
-  <div class="botonera">
-    <button onclick="iniciarSesion('H2tr1')">Historia 2 (1er trimestre)</button>
-    <button onclick="iniciarSesion('H2tr2')">Historia 2 (2º trimestre)</button>
-    <button onclick="iniciarSesion('H2tr3')">Historia 2 (3er trimestre)</button>
-  </div>
-
-  <div id="pantalla-audicion" class="hidden">
-    <!-- Aquí iría tu contenido dinámico de la app -->
-  </div>
-
-  <div class="footer">
-    <a href="https://bustena.wordpress.com/" target="_blank">
-      <img src="https://bustena.wordpress.com/wp-content/uploads/2023/02/cropped-icon-piano.png" alt="icono" class="footer-icon" />
-      <span class="footer-title">Historia de la Música</span>
-    </a>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
+  <footer class="footer">
+  <a href="https://bustena.wordpress.com/" target="_blank">
+    <img src="https://bustena.wordpress.com/wp-content/uploads/2023/02/cropped-icon-piano.png?w=200" alt="Icono" class="footer-icon">
+    <span class="footer-title">HISTORIA DE LA MÚSICA</span>
+  </a>
+</footer>
 </body>
 </html>
