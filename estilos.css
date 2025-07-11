@@ -43,6 +43,14 @@ h1, h2 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
+#cargando {
+  text-align: center;
+  margin: 2rem auto;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #5c3e36;
+}
+
 /* Cajas de audiciones */
 
 .audicion-caja button {
@@ -144,6 +152,19 @@ h1, h2 {
   opacity: 0.7;
   transform: none;
   box-shadow: none;
+}
+
+.boton-audicion.activo {
+  background-color: #4caf50; /* verde */
+}
+
+.boton-audicion.pausado {
+  background-color: #ff9800; /* naranja */
+}
+
+.boton-audicion.activo:hover,
+.boton-audicion.pausado:hover {
+  filter: brightness(0.9); /* efecto leve al pasar el ratón */
 }
 
 /* Pie de página */
