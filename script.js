@@ -66,6 +66,17 @@ function iniciarAudiciones() {
     zona.className = 'zona-solucion';
     zona.textContent = '[esperando solución]';
     caja.appendChild(zona);
+    
+    const botonSol = document.createElement('button');
+    botonSol.textContent = 'Solución';
+    botonSol.className = 'boton-solucion';
+    botonSol.onclick = () => {
+      const idxSel = seleccion[i];
+      zona.textContent = `${datos[idxSel].autor}: ${datos[idxSel].obra}`;
+      zona.style.fontWeight = 'bold';
+      botonSol.disabled = true;
+    };
+    caja.appendChild(botonSol);
 
     grid.appendChild(caja);
   });
