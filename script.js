@@ -31,20 +31,42 @@ function loadCSV(clave) {
     });
 }
 
-function iniciarAudiciones() {
-  seleccion = [];
-  fragmentos = [];
-  estados = Array(CONST).fill('stop');
   const audiciones = document.getElementById('audiciones');
   audiciones.innerHTML = '';
 
-  while (seleccion.length < CONST) {
-    let idx = Math.floor(Math.random() * datos.length);
-    if (!seleccion.includes(idx)) {
-      seleccion.push(idx);
-      fragmentos.push(null);
-    }
-  }
+  const grid = document.createElement('div');
+  grid.className = 'audiciones-grid';
+
+  seleccion.forEach((idx, i) => {
+    const caja = document.createElement('div');
+    caja.className = 'audicion-caja';
+
+    const btn = document.createElement('button');
+    btn.className = 'boton-audicion';
+    btn.textContent = `Audición ${i + 1}`;
+    btn.onclick = () => reproducir(i, datos[idx].url, btn);
+    caja.appendChild(btn);
+
+    const solucion = document.createElement('div');
+    solucion.className = 'zona-solucion';
+    solucion.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
+    solucion.style.display = 'none';
+    caja.appendChild(solucion);
+
+    grid.appendChild(caja);
+  });
+
+  audiciones.appendChild(grid);
+
+  const btnSol = document.createElement('button');
+  btnSol.id = 'mostrar-soluciones';
+  btnSol.textContent = 'Mostrar soluciones';
+  btnSol.onclick = () => {
+    document.querySelectorAll('.zona-solucion').forEach(el => el.style.display = 'block');
+    btnSol.disabled = true;
+  };
+  audiciones.appendChild(btnSol);
+
 
   const grid = document.createElement('div');
   grid.className = 'audiciones-grid';
