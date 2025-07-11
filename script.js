@@ -6,7 +6,7 @@ const urls = {
   H1tr3: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=923004067&single=true&output=csv',
   H2tr1: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=991944699&single=true&output=csv',
   H2tr2: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=1251501192&single=true&output=csv',
-  H2tr3: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=1487547326&single=true&output=csv',
+  H2tr3: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=1487547326&single=true&output=csv'
 };
 
 let datos = [];
@@ -46,34 +46,43 @@ function iniciarAudiciones() {
     }
   }
 
+  const grid = document.createElement('div');
+  grid.className = 'audiciones-grid';
+
   seleccion.forEach((idx, i) => {
-    const cont = document.createElement('div');
-    cont.className = 'audicion';
+    const caja = document.createElement('div');
+    caja.className = 'audicion';
 
-    const btn = document.createElement('button');
-    btn.className = 'boton-audicion';
-    btn.textContent = `Audición ${i + 1}`;
-    btn.onclick = () => reproducir(i, datos[idx].url, btn);
-    cont.appendChild(btn);
+    const boton = document.createElement('button');
+    boton.className = 'boton-audicion';
+    boton.textContent = `Audición ${i + 1}`;
+    boton.onclick = () => reproducir(i, datos[idx].url, boton);
+    caja.appendChild(boton);
 
-    const texto = document.createElement('div');
-    texto.className = 'solucion';
-    texto.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
-    texto.style.display = 'none';
-    cont.appendChild(texto);
+    const zona = document.createElement('div');
+    zona.className = 'zona-solucion';
+    zona.textContent = '[esperando solución]';
+    caja.appendChild(zona);
 
-    audiciones.appendChild(cont);
+    grid.appendChild(caja);
   });
+
+  audiciones.appendChild(grid);
 
   const btnSol = document.createElement('button');
   btnSol.id = 'mostrar-soluciones';
   btnSol.textContent = 'Mostrar soluciones';
   btnSol.onclick = () => {
-    document.querySelectorAll('.solucion').forEach(el => el.style.display = 'block');
+    const zonas = document.querySelectorAll('.zona-solucion');
+    zonas.forEach((zona, i) => {
+      const idx = seleccion[i];
+      zona.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
+      zona.style.fontWeight = 'bold';
+    });
     btnSol.disabled = true;
   };
-  audiciones.appendChild(btnSol);
 
+  audiciones.appendChild(btnSol);
   document.getElementById('cargando').style.display = 'none';
   actual = -1;
 }
@@ -94,7 +103,6 @@ function reproducir(i, url, btn) {
     return;
   }
 
-  // Parar anterior
   if (actual !== -1) {
     estados[actual] = 'stop';
     const btnAnt = document.querySelectorAll('.boton-audicion')[actual];
@@ -105,7 +113,7 @@ function reproducir(i, url, btn) {
   audio = new Audio(url);
   audio.addEventListener('loadedmetadata', () => {
     if (!fragmentos[i]) {
-      let maxInicio = Math.max(0, audio.duration - DURACION);
+      const maxInicio = Math.max(0, audio.duration - DURACION);
       fragmentos[i] = Math.random() * maxInicio;
     }
     audio.currentTime = fragmentos[i];
