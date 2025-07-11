@@ -129,8 +129,8 @@ h1, h2 {
   display: flex;               /* ya no está oculta */
   width: 100%;
   margin-top: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  width: calc(100% - 4rem);
+  margin: 0 2rem;
   background-color: #f5eee6;
   border: 1px dashed #765348;
   border-radius: 6px;
@@ -141,7 +141,7 @@ h1, h2 {
   align-items: center;
   justify-content: center;
   transition: opacity 0.5s ease;
-  opacity: 0; /* solución inicialmente invisible */
+  /*opacity: 0; /* solución inicialmente invisible */
 }
 
 /* Botón general de soluciones */
