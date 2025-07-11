@@ -95,6 +95,23 @@ h1, h2 {
   justify-content: center;
 }
 
+.boton-solucion {
+  margin-top: 0.6rem;
+  background: #aaa;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.boton-solucion:hover:enabled {
+  background: #888;
+}
+
 #mostrar-soluciones {
   margin: 3rem auto 2rem; /* más separación hacia arriba */
   background-color: #765348;
