@@ -4,84 +4,116 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Entrenamiento auditivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://bustena.wordpress.com/wp-content/uploads/2023/02/cropped-icon-piano.png" type="image/png">
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Lato', sans-serif;
+      background: #f5eee6;
       padding: 2rem;
-      background-color: #f0f0f0;
+      margin-bottom: 4rem; /* espacio para la banda inferior */
+      color: #5c3e36;
     }
-    .hidden {
-      display: none;
-    }
-    .pantalla {
+
+    h1 {
+      text-align: center;
+      font-weight: 300;
+      font-size: 1.8rem;
+      color: #5c3e36;
       margin-bottom: 2rem;
     }
-    .btn-audio {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 1rem;
-      font-size: 1rem;
-      border: none;
+
+    .botonera {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .botonera button {
+      background: #eee;
+      border: 2px solid #ccc;
       border-radius: 8px;
-      background-color: #ddd;
-      cursor: pointer;
-    }
-    .btn-audio:disabled {
-      background-color: #bbb;
-      cursor: not-allowed;
-    }
-    button.control {
-      margin: 1rem 0.5rem;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.2rem;
       font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 180px;
+    }
+
+    .botonera button:hover {
+      background: #d4e4ff;
+      border-color: #88aaff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      z-index: 100;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-icon {
+      height: 24px;
+      width: 24px;
+    }
+
+    .footer-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
+  <h1>Entrena tus audiciones</h1>
 
-  <!-- Pantalla inicial -->
-  <div id="pantalla-inicial" class="pantalla">
-    <h2>Configuración</h2>
-    <label>Curso:
-      <select id="select-curso">
-        <option value="1">H1</option>
-        <option value="2">H2</option>
-      </select>
-    </label><br><br>
-
-    <label>Trimestre:
-      <select id="select-trimestre">
-        <option value="tr1">1º</option>
-        <option value="tr2">2º</option>
-        <option value="tr3">3º</option>
-      </select>
-    </label><br><br>
-
-    <label>N.º de audiciones (máx 6):
-      <input type="number" id="num-audiciones" min="1" max="6" value="3"/>
-    </label><br><br>
-
-    <label>Duración (ej: 1:30 o 2):
-      <input type="text" id="duracion" value="0:40"/>
-    </label><br><br>
-
-    <button onclick="iniciarSesion()">Empezar</button>
+  <div class="botonera">
+    <button onclick="iniciarSesion('H1tr1')">Historia 1 (1er trimestre)</button>
+    <button onclick="iniciarSesion('H1tr2')">Historia 1 (2º trimestre)</button>
+    <button onclick="iniciarSesion('H1tr3')">Historia 1 (3er trimestre)</button>
+  </div>
+  <div class="botonera">
+    <button onclick="iniciarSesion('H2tr1')">Historia 2 (1er trimestre)</button>
+    <button onclick="iniciarSesion('H2tr2')">Historia 2 (2º trimestre)</button>
+    <button onclick="iniciarSesion('H2tr3')">Historia 2 (3er trimestre)</button>
   </div>
 
-  <!-- Pantalla de audiciones -->
-  <div id="pantalla-audicion" class="pantalla hidden">
-    <h2>Selecciona y escucha</h2>
-    <div id="cargando-audios">Cargando audios, por favor espera...</div>
-    <div id="lista-audiciones"></div>
-    <br>
-    <button class="control" onclick="mostrarSolucion()">Solución</button>
-    <button class="control" onclick="reiniciar()">Reiniciar</button>
+  <div id="pantalla-audicion" class="hidden">
+    <!-- Aquí iría tu contenido dinámico de la app -->
   </div>
 
-  <!-- PapaParse -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <div class="footer">
+    <a href="https://bustena.wordpress.com/" target="_blank">
+      <img src="https://bustena.wordpress.com/wp-content/uploads/2023/02/cropped-icon-piano.png" alt="icono" class="footer-icon" />
+      <span class="footer-title">Historia de la Música</span>
+    </a>
+  </div>
 
-  <!-- Tu script -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
