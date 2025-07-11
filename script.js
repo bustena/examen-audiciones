@@ -63,28 +63,30 @@ function iniciarAudiciones() {
     boton.onclick = () => reproducir(i, datos[idx].url, boton);
     caja.appendChild(boton);
 
-    const botonSol = document.createElement('button');
-    botonSol.className = 'boton-solucion';
-    botonSol.textContent = 'Mostrar solución';
-    caja.appendChild(botonSol);
-
     const zona = document.createElement('div');
     zona.className = 'zona-solucion';
     zona.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
     zona.style.display = 'none';
     caja.appendChild(zona);
 
-    botonSol.onclick = () => {
-      botonSol.style.display = 'none';
-      zona.style.display = 'flex';
-      zona.style.opacity = '0';
-      setTimeout(() => zona.style.opacity = '1', 10);
-    };
-
     contenedor.appendChild(caja);
   });
 
   audiciones.appendChild(contenedor);
+
+  const btnSoluciones = document.createElement('button');
+  btnSoluciones.id = 'mostrar-soluciones';
+  btnSoluciones.textContent = 'Soluciones';
+  btnSoluciones.onclick = () => {
+    document.querySelectorAll('.zona-solucion').forEach(zona => {
+      zona.style.display = 'flex';
+      zona.style.opacity = '0';
+      setTimeout(() => zona.style.opacity = '1', 10);
+    });
+    btnSoluciones.disabled = true;
+  };
+  audiciones.appendChild(btnSoluciones);
+
   document.getElementById('cargando').style.display = 'none';
 }
 
@@ -128,7 +130,6 @@ function reproducir(i, url, btn) {
     btn.classList.add('activo');
     actual = i;
 
-    // Detener tras DURACION segundos
     finTimeout = setTimeout(() => {
       audio.pause();
       btn.classList.remove('activo', 'pausado');
