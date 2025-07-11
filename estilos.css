@@ -75,19 +75,22 @@ h1, h2 {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0
+  transition: background 0.2s ease;
+  min-width: 160px;
+}
 
-  .footer {
+/* Pie de página */
+.footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #5c3e36; /* fondo oscuro, ya usado en hover */
+  background-color: #5c3e36;
   color: white;
   text-align: center;
   padding: 0.7rem 1rem;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.15);
   font-family: 'Lato', sans-serif;
-  font-weight: 700; /* negrita clara */
+  font-weight: 700;
   font-size: 1rem;
   z-index: 100;
 }
