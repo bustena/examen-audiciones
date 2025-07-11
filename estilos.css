@@ -96,6 +96,7 @@ h1, h2 {
 }
 
 #mostrar-soluciones {
+  margin: 3rem auto 2rem; /* más separación hacia arriba */
   background-color: #765348;
   color: white;
   border: none;
