@@ -77,12 +77,17 @@ function iniciarAudiciones() {
   const btnSoluciones = document.createElement('button');
   btnSoluciones.id = 'mostrar-soluciones';
   btnSoluciones.textContent = 'Soluciones';
-  btnSoluciones.onclick = () => {
-    document.querySelectorAll('.zona-solucion').forEach((zona, i) => {
-      zona.textContent = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
-      zona.style.opacity = '0';
-      setTimeout(() => zona.style.opacity = '1', 10);
-    });
+  btnSoluciones.onclick = async () => {
+    const zonas = document.querySelectorAll('.zona-solucion');
+    for (let i = 0; i < zonas.length; i++) {
+      const zona = zonas[i];
+      const texto = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
+      zona.textContent = '';
+      for (let j = 0; j < texto.length; j++) {
+        zona.textContent += texto[j];
+        await new Promise(res => setTimeout(res, 40));
+      }
+    }
     btnSoluciones.disabled = true;
   };
   audiciones.appendChild(btnSoluciones);
