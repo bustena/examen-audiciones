@@ -65,8 +65,8 @@ function iniciarAudiciones() {
 
     const zona = document.createElement('div');
     zona.className = 'zona-solucion';
-    zona.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
-    zona.style.display = 'none';
+    zona.textContent = '';
+    zona.style.display = 'flex';
     caja.appendChild(zona);
 
     contenedor.appendChild(caja);
@@ -78,8 +78,8 @@ function iniciarAudiciones() {
   btnSoluciones.id = 'mostrar-soluciones';
   btnSoluciones.textContent = 'Soluciones';
   btnSoluciones.onclick = () => {
-    document.querySelectorAll('.zona-solucion').forEach(zona => {
-      zona.style.display = 'flex';
+    document.querySelectorAll('.zona-solucion').forEach((zona, i) => {
+      zona.textContent = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
       zona.style.opacity = '0';
       setTimeout(() => zona.style.opacity = '1', 10);
     });
