@@ -1,11 +1,11 @@
-e/* Tipografía base */
+/* Tipografía base */
 body {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   background: #f5eee6;
   color: #5c3e36;
-  padding-bottom: 80px; /* espacio suficiente para el footer */
-  margin: 0; /* asegúrate de quitar cualquier margen por defecto */
+  padding-bottom: 80px;
+  margin: 0;
 }
 
 /* Títulos */
@@ -43,84 +43,23 @@ h1, h2 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* Tarjetas de audiciones */
+/* Contenedor de tarjetas (vacío por ahora) */
 .audiciones {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding-bottom: 4rem; /* espacio para el footer */
+  padding-bottom: 4rem;
 }
 
-.audicion {
-  background: #f5eee6;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  max-width: 600px;    /* límite en pantallas grandes */
-  width: 100%;         /* ocupa todo el ancho disponible */
-  box-sizing: border-box; /* incluye padding y borde en el ancho */
-  margin: 0 auto;      /* centrado horizontal */
-}
-
-.audicion:hover {
-  transform: scale(1.01);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.cabecera {
-  margin-bottom: 0.5rem;
-}
-
-.texto {
-  font-weight: 400;
-  font-size: 1.1rem;
-  color: #5c3e36; /* asegura coherencia de color en texto */
-}
-
-.contenido {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-audio {
-  width: 100%;
-  margin-bottom: 0.5rem;
-}
-
-.audicion button {
-  display: block;
-  margin: 0 auto;
-  padding: 0.5rem 1.5rem;
-  background: #765348;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  width: fit-content;
-  min-width: 120px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.audicion button:hover {
-  background: #5c3e36;
-}
-
+/* Pie de página */
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #5c3e36; /* fondo oscuro, ya usado en hover */
+  background-color: #5c3e36;
   color: white;
   text-align: center;
   padding: 0.7rem 1rem;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.15);
   font-family: 'Lato', sans-serif;
-  font-weight: 700; /* negrita clara */
+  font-weight: 700;
   font-size: 1rem;
   z-index: 100;
 }
@@ -141,5 +80,5 @@ audio {
 
 .footer-title {
   font-size: 1rem;
-  font-weight: 700; /* negrita */
+  font-weight: 700;
 }
