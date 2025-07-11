@@ -85,7 +85,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 150px;
+  min-height: 180px; /* o ajusta más si es necesario */
 }
 
 /* Botón de audición */
@@ -126,6 +126,11 @@ h1, h2 {
 
 /* Zona de solución oculta hasta activación */
 .zona-solucion {
+  display: flex;               /* ya no está oculta */
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   background-color: #f5eee6;
   border: 1px dashed #765348;
   border-radius: 6px;
@@ -133,11 +138,10 @@ h1, h2 {
   font-size: 0.95rem;
   color: #5c3e36;
   padding: 0.5rem 0.7rem;
-  min-height: 2.2rem;
-  display: none;
   align-items: center;
   justify-content: center;
   transition: opacity 0.5s ease;
+  opacity: 0; /* solución inicialmente invisible */
 }
 
 /* Botón general de soluciones */
