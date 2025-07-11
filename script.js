@@ -1,4 +1,5 @@
 const CONST = 4;
+const DURACION = 120; // duración en segundos
 
 const urls = {
   H1tr1: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=0&single=true&output=csv',
@@ -11,6 +12,7 @@ const urls = {
 
 let seleccionadas = [];
 let audioActual = null;
+let puntosInicio = [];
 
 function loadCSV(clave) {
   document.getElementById('cargando').style.display = 'block';
@@ -19,9 +21,10 @@ function loadCSV(clave) {
     .then(texto => {
       const resultado = Papa.parse(texto, { header: true });
       const datos = resultado.data
-        .filter(row => row.Autor && row.Obra && row.URL_audio); // limpiar vacíos
+        .filter(row => row.Autor && row.Obra && row.URL_audio);
 
       seleccionadas = seleccionarAleatorias(datos, CONST);
+      puntosInicio = new Array(CONST).fill(null);
       mostrarAudiciones(seleccionadas);
       document.getElementById('cargando').style.display = 'none';
     });
@@ -43,11 +46,11 @@ function mostrarAudiciones(lista) {
 
   lista.forEach((item, i) => {
     const tarjeta = document.createElement('div');
-    tarjeta.className = 'audicion';
+    tarjeta.className = 'audicion fila-audicion';
 
     const boton = document.createElement('button');
     boton.textContent = `Audición ${i + 1}`;
-    boton.onclick = () => reproducirAudio(item.URL_audio);
+    boton.onclick = () => reproducirAudio(i);
 
     tarjeta.appendChild(boton);
     contenedor.appendChild(tarjeta);
@@ -57,30 +60,39 @@ function mostrarAudiciones(lista) {
   botonSoluciones.textContent = 'Mostrar soluciones';
   botonSoluciones.className = 'mostrar-soluciones';
   botonSoluciones.onclick = mostrarSoluciones;
-
   contenedor.appendChild(botonSoluciones);
 }
 
-function reproducirAudio(url) {
+function reproducirAudio(indice) {
   if (audioActual) {
     audioActual.pause();
     audioActual.currentTime = 0;
   }
 
-  audioActual = new Audio(url);
-  audioActual.play();
+  audioActual = new Audio(seleccionadas[indice].URL_audio);
+
+  audioActual.addEventListener('loadedmetadata', () => {
+    if (puntosInicio[indice] === null) {
+      const maxInicio = Math.max(0, audioActual.duration - DURACION);
+      puntosInicio[indice] = Math.random() * maxInicio;
+    }
+    audioActual.currentTime = puntosInicio[indice];
+    audioActual.play();
+
+    setTimeout(() => {
+      audioActual.pause();
+    }, DURACION * 1000);
+  });
 }
 
 function mostrarSoluciones() {
   const contenedor = document.getElementById('audiciones');
-  const lista = document.createElement('ul');
-  lista.className = 'soluciones';
+  const filas = contenedor.getElementsByClassName('fila-audicion');
 
   seleccionadas.forEach((item, i) => {
-    const li = document.createElement('li');
-    li.textContent = `Audición ${i + 1}: ${item.Autor} – ${item.Obra}`;
-    lista.appendChild(li);
+    const span = document.createElement('span');
+    span.textContent = ` → ${item.Autor}: ${item.Obra}`;
+    span.className = 'solucion-texto';
+    filas[i].appendChild(span);
   });
-
-  contenedor.appendChild(lista);
 }
