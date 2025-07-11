@@ -1,5 +1,6 @@
 const CONST = 4;
 const DURACION = 120;
+
 const urls = {
   H1tr1: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=0&single=true&output=csv',
   H1tr2: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTb2p1IwuAK7jqnep9w4K5Vnmi-66ugFXv8JYTWRuDEIWDv7hGGlj7qk6SyU7ulW9DklaZ4-vIuehou/pub?gid=355259796&single=true&output=csv',
@@ -31,49 +32,29 @@ function loadCSV(clave) {
     });
 }
 
+function iniciarAudiciones() {
+  seleccion = [];
+  fragmentos = [];
+  estados = Array(CONST).fill('stop');
+  actual = -1;
+
   const audiciones = document.getElementById('audiciones');
   audiciones.innerHTML = '';
 
   const grid = document.createElement('div');
   grid.className = 'audiciones-grid';
 
+  while (seleccion.length < CONST) {
+    const idx = Math.floor(Math.random() * datos.length);
+    if (!seleccion.includes(idx)) {
+      seleccion.push(idx);
+      fragmentos.push(null);
+    }
+  }
+
   seleccion.forEach((idx, i) => {
     const caja = document.createElement('div');
     caja.className = 'audicion-caja';
-
-    const btn = document.createElement('button');
-    btn.className = 'boton-audicion';
-    btn.textContent = `Audición ${i + 1}`;
-    btn.onclick = () => reproducir(i, datos[idx].url, btn);
-    caja.appendChild(btn);
-
-    const solucion = document.createElement('div');
-    solucion.className = 'zona-solucion';
-    solucion.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
-    solucion.style.display = 'none';
-    caja.appendChild(solucion);
-
-    grid.appendChild(caja);
-  });
-
-  audiciones.appendChild(grid);
-
-  const btnSol = document.createElement('button');
-  btnSol.id = 'mostrar-soluciones';
-  btnSol.textContent = 'Mostrar soluciones';
-  btnSol.onclick = () => {
-    document.querySelectorAll('.zona-solucion').forEach(el => el.style.display = 'block');
-    btnSol.disabled = true;
-  };
-  audiciones.appendChild(btnSol);
-
-
-  const grid = document.createElement('div');
-  grid.className = 'audiciones-grid';
-
-  seleccion.forEach((idx, i) => {
-    const caja = document.createElement('div');
-    caja.className = 'audicion';
 
     const boton = document.createElement('button');
     boton.className = 'boton-audicion';
@@ -95,18 +76,16 @@ function loadCSV(clave) {
   btnSol.id = 'mostrar-soluciones';
   btnSol.textContent = 'Mostrar soluciones';
   btnSol.onclick = () => {
-    const zonas = document.querySelectorAll('.zona-solucion');
-    zonas.forEach((zona, i) => {
+    document.querySelectorAll('.zona-solucion').forEach((zona, i) => {
       const idx = seleccion[i];
       zona.textContent = `${datos[idx].autor}: ${datos[idx].obra}`;
       zona.style.fontWeight = 'bold';
     });
     btnSol.disabled = true;
   };
-
   audiciones.appendChild(btnSol);
+
   document.getElementById('cargando').style.display = 'none';
-  actual = -1;
 }
 
 function reproducir(i, url, btn) {
