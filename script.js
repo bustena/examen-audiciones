@@ -53,13 +53,6 @@ function iniciarAudiciones() {
     }
   }
 
-  const opcionVacia = document.createElement('option');
-  opcionVacia.value = '';
-  opcionVacia.textContent = '—';
-  opcionVacia.disabled = false;
-  opcionVacia.selected = true;
-  selector.appendChild(opcionVacia);
-
   seleccion.forEach((idx, i) => {
     const caja = document.createElement('div');
     caja.className = 'audicion-caja';
@@ -72,17 +65,24 @@ function iniciarAudiciones() {
 
     const zona = document.createElement('div');
     zona.className = 'zona-solucion';
-    
+
     const selector = document.createElement('select');
     selector.className = 'selector-solucion';
-    
+
+    const opcionVacia = document.createElement('option');
+    opcionVacia.value = '';
+    opcionVacia.textContent = '—';
+    opcionVacia.disabled = false;
+    opcionVacia.selected = true;
+    selector.appendChild(opcionVacia);
+
     datos.forEach(d => {
       const opcion = document.createElement('option');
       opcion.value = `${d.autor}: ${d.obra}`;
       opcion.textContent = `${d.autor}: ${d.obra}`;
       selector.appendChild(opcion);
     });
-    
+
     zona.appendChild(selector);
     caja.appendChild(zona);
 
@@ -100,17 +100,17 @@ function iniciarAudiciones() {
       const selector = zona.querySelector('select');
       const correcta = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
       const elegida = selector.value;
-  
+
       selector.classList.remove('correcto', 'incorrecto');
       if (elegida === correcta) {
         selector.classList.add('correcto');
       } else {
         selector.classList.add('incorrecto');
       }
-  
+
       selector.disabled = true;
     });
-  
+
     btnSoluciones.disabled = true;
   };
 
