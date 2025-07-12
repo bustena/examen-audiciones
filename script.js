@@ -53,6 +53,13 @@ function iniciarAudiciones() {
     }
   }
 
+  const opcionVacia = document.createElement('option');
+  opcionVacia.value = '';
+  opcionVacia.textContent = '—';
+  opcionVacia.disabled = false;
+  opcionVacia.selected = true;
+  selector.appendChild(opcionVacia);
+
   seleccion.forEach((idx, i) => {
     const caja = document.createElement('div');
     caja.className = 'audicion-caja';
