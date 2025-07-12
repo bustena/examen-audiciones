@@ -19,7 +19,19 @@ let actual = -1;
 let finTimeout = null;
 
 function loadCSV(clave) {
+  // Detener audio activo si lo hay
+  if (audio && !audio.paused) {
+    audio.pause();
+  }
+  audio.src = ''; // limpia el recurso
+  actual = -1;
+  if (finTimeout) {
+    clearTimeout(finTimeout);
+    finTimeout = null;
+  }
+
   document.getElementById('cargando').style.display = 'block';
+
   fetch(urls[clave])
     .then(res => res.text())
     .then(csv => {
