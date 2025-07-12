@@ -94,43 +94,48 @@ function iniciarAudiciones() {
   const btnSoluciones = document.createElement('button');
   btnSoluciones.id = 'mostrar-soluciones';
   btnSoluciones.textContent = 'Soluciones';
+  btnSoluciones.className = 'boton-solucion';
+
+  btnSoluciones.onclick = () => {
+    const zonas = document.querySelectorAll('.zona-solucion');
     let aciertos = 0;
-  
-  zonas.forEach((zona, i) => {
-    const selector = zona.querySelector('select');
-    const correcta = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
-    const elegida = selector.value;
-  
-    selector.classList.remove('correcto', 'incorrecto');
-    if (elegida === correcta) {
-      selector.classList.add('correcto');
-      aciertos++;
+
+    zonas.forEach((zona, i) => {
+      const selector = zona.querySelector('select');
+      const correcta = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
+      const elegida = selector.value;
+
+      selector.classList.remove('correcto', 'incorrecto');
+      if (elegida === correcta) {
+        selector.classList.add('correcto');
+        aciertos++;
+      } else {
+        selector.classList.add('incorrecto');
+      }
+
+      selector.disabled = true;
+    });
+
+    btnSoluciones.disabled = true;
+
+    // Mostrar mensaje adaptado con color e icono
+    const mensaje = document.getElementById('mensaje-final');
+    mensaje.className = 'mensaje-final';  // limpia clases anteriores
+
+    if (aciertos === CONST) {
+      mensaje.textContent = `✔️ ¡Perfecto! ${aciertos} de ${CONST} respuestas correctas.`;
+      mensaje.classList.add('exito');
+    } else if (aciertos >= CONST - 1) {
+      mensaje.textContent = `👍 Muy bien: ${aciertos} de ${CONST} aciertos.`;
+      mensaje.classList.add('bien');
+    } else if (aciertos >= CONST / 2) {
+      mensaje.textContent = `➗ Has acertado ${aciertos} de ${CONST}. ¡Sigue practicando!`;
+      mensaje.classList.add('medio');
     } else {
-      selector.classList.add('incorrecto');
+      mensaje.textContent = `❗ Solo ${aciertos} de ${CONST} aciertos. Intenta repasarlo.`;
+      mensaje.classList.add('bajo');
     }
-  
-    selector.disabled = true;
-  });
-  
-  btnSoluciones.disabled = true;
-  
-  // Mostrar mensaje adaptado con color e icono
-  const mensaje = document.getElementById('mensaje-final');
-  mensaje.className = 'mensaje-final';  // limpia clases anteriores
-  
-  if (aciertos === CONST) {
-    mensaje.textContent = `✔️ ¡Perfecto! ${aciertos} de ${CONST} respuestas correctas.`;
-    mensaje.classList.add('exito');
-  } else if (aciertos >= CONST - 1) {
-    mensaje.textContent = `👍 Muy bien: ${aciertos} de ${CONST} aciertos.`;
-    mensaje.classList.add('bien');
-  } else if (aciertos >= CONST / 2) {
-    mensaje.textContent = `➗ Has acertado ${aciertos} de ${CONST}. ¡Sigue practicando!`;
-    mensaje.classList.add('medio');
-  } else {
-    mensaje.textContent = `❗ Solo ${aciertos} de ${CONST} aciertos. Intenta repasarlo.`;
-    mensaje.classList.add('bajo');
-  }
+  };
 
   audiciones.appendChild(btnSoluciones);
 
