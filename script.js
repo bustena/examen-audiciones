@@ -65,8 +65,18 @@ function iniciarAudiciones() {
 
     const zona = document.createElement('div');
     zona.className = 'zona-solucion';
-    zona.textContent = '';
-    zona.style.display = 'flex';
+    
+    const selector = document.createElement('select');
+    selector.className = 'selector-solucion';
+    
+    datos.forEach(d => {
+      const opcion = document.createElement('option');
+      opcion.value = `${d.autor}: ${d.obra}`;
+      opcion.textContent = `${d.autor}: ${d.obra}`;
+      selector.appendChild(opcion);
+    });
+    
+    zona.appendChild(selector);
     caja.appendChild(zona);
 
     contenedor.appendChild(caja);
@@ -77,19 +87,26 @@ function iniciarAudiciones() {
   const btnSoluciones = document.createElement('button');
   btnSoluciones.id = 'mostrar-soluciones';
   btnSoluciones.textContent = 'Soluciones';
-  btnSoluciones.onclick = async () => {
+  btnSoluciones.onclick = () => {
     const zonas = document.querySelectorAll('.zona-solucion');
-    for (let i = 0; i < zonas.length; i++) {
-      const zona = zonas[i];
-      const texto = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
-      zona.textContent = '';
-      for (let j = 0; j < texto.length; j++) {
-        zona.textContent += texto[j];
-        await new Promise(res => setTimeout(res, 40));
+    zonas.forEach((zona, i) => {
+      const selector = zona.querySelector('select');
+      const correcta = `${datos[seleccion[i]].autor}: ${datos[seleccion[i]].obra}`;
+      const elegida = selector.value;
+  
+      selector.classList.remove('correcto', 'incorrecto');
+      if (elegida === correcta) {
+        selector.classList.add('correcto');
+      } else {
+        selector.classList.add('incorrecto');
       }
-    }
+  
+      selector.disabled = true;
+    });
+  
     btnSoluciones.disabled = true;
   };
+
   audiciones.appendChild(btnSoluciones);
 
   document.getElementById('cargando').style.display = 'none';
