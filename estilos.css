@@ -144,6 +144,11 @@ h1, h2 {
   box-shadow: 0 0 4px rgba(92, 62, 54, 0.5);
 }
 
+.selector-solucion option:first-child {
+  text-align: center;
+  color: #bbb;
+}
+
 .correcto {
   background-color: #d4edda;
   color: #155724;
